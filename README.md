@@ -5,5 +5,16 @@
 
 ## Submission link
 - Section A: https://forms.gle/ydjAJcwxjpjBXgxB8
-- Section B: https://forms.gle/pAuXQaokwVzhRzit6                      
+- Section B: https://forms.gle/pAuXQaokwVzhRzit6
 
+## Homework Submissions
+
+| Session | Topic | Write-up |
+| :--- | :--- | :--- |
+| 2 | Linux Fundamentals | [session2-linux/README.md](session2-linux/README.md) |
+| 3 | Shell Scripting | [session3-shell-scripting/README.md](session3-shell-scripting/README.md) |
+| 4 | Networking Fundamentals | [session4-networking/README.md](session4-networking/README.md) |
+| 5 | Git / GitHub | [session5-git-github/README.md](session5-git-github/README.md) |
+| 6-7 | Docker Fundamentals | [session6-7-docker/README.md](session6-7-docker/README.md) |
+| 6-7 | Dockerfiles and Multi-Stage Builds | [session6-7-docker/multi-stage-build.md](session6-7-docker/multi-stage-build.md) |
+| 8 | Docker Networking and Volumes | [session8-docker-networking-volume/README.md](session8-docker-networking-volume/README.md) |
