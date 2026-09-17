@@ -10,8 +10,8 @@ All commands were run on macOS with Docker Desktop.
 
 ## Task 1: Run the Multi-Stage Dockerfile
 
-The multi-stage Dockerfile and its application code are in
-[multi-stage-dockerfile/](multi-stage-dockerfile/).
+The multi-stage Dockerfile and its application code are in this folder:
+[Dockerfile](Dockerfile), [server.js](server.js), [package.json](package.json).
 
 ### The Dockerfile
 
@@ -40,7 +40,6 @@ CMD ["npm", "start"]
 ### Building the Image
 
 ```console
-$ cd multi-stage-dockerfile
 $ docker build -t multi-stage-hello .
 ...
 naming to docker.io/library/multi-stage-hello:latest done
@@ -68,7 +67,7 @@ The same page opened in the browser at http://localhost:8080 shows:
 Hello World from Docker multi-stage build
 ```
 
-![Application running on port 8080](screenshots/multi-stage-browser.png)
+![Application running on port 8080](../screenshots/multi-stage-browser.png)
 
 ### Container Logs
 
@@ -94,7 +93,7 @@ CONTAINER ID   IMAGE               COMMAND                  CREATED          STA
 The `PORTS` column confirms `0.0.0.0:8080->3000/tcp`, so host port 8080 is forwarding to the
 application's port 3000 inside the container, and the status is `Up`.
 
-![docker ps showing port 8080](screenshots/multi-stage-docker-ps.png)
+![docker ps showing port 8080](../screenshots/multi-stage-docker-ps.png)
 
 ---
 
@@ -119,7 +118,7 @@ large in a real project, because:
   tools are left out.
 - A smaller image means faster pushes and pulls, less storage in the registry, and a smaller
   attack surface since fewer packages are installed in the running container.
-- The React app in [hello-world-apps/React-app](hello-world-apps/React-app/) shows the bigger
+- The React app in [hello-world-apps/React-app](../hello-world-apps/React-app/) shows the bigger
   win. Node and the whole `node_modules` folder stay in the build stage, and the final image is
   just nginx with the built static files, at 102MB.
 
@@ -128,7 +127,7 @@ large in a real project, because:
 ## Task 3: Docker Application Deployment
 
 The requirement was to deploy at least three different types of applications with Docker. Six
-were built and run, all documented with output in [README.md](README.md).
+were built and run, all documented with output in [session6-7-docker/README.md](../README.md).
 
 | Application | Image | Host Port | Result |
 | :--- | :--- | :--- | :--- |
@@ -150,7 +149,7 @@ f3e841e52920   apache-hello   "httpd-foreground"       55 minutes ago   Up 55 mi
 cf3d7dc90b0e   nodejs-hello   "docker-entrypoint.s…"   55 minutes ago   Up 55 minutes   0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp   nodejs-app
 ```
 
-![All applications running](screenshots/docker-ps-all.png)
+![All applications running](../screenshots/docker-ps-all.png)
 
 ---
 

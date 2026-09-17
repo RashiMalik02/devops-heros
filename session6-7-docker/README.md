@@ -356,4 +356,4 @@ docker rm -f nodejs-app python-app java-app apache-app react-app nginx-app
 
 Docker commands and cleanup notes from the session are in [docker.md](docker.md), and the
 multi-stage build homework is written up in
-[multi-stage-build.md](multi-stage-build.md).
+[multi-stage-dockerfile/README.md](multi-stage-dockerfile/README.md).
