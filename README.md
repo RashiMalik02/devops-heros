@@ -18,5 +18,7 @@
 | 6-7 | Docker Fundamentals | [session6-7-docker/README.md](session6-7-docker/README.md) |
 | 6-7 | Dockerfiles and Multi-Stage Builds | [session6-7-docker/multi-stage-dockerfile/README.md](session6-7-docker/multi-stage-dockerfile/README.md) |
 | 8 | Docker Networking and Volumes | [session8-docker-networking-volume/README.md](session8-docker-networking-volume/README.md) |
+| 9 | Kubernetes Fundamentals | [session9-k8s/Readme.md](session9-k8s/Readme.md) |
 | 10 | Kubernetes Core Objects and Deployment Strategies | [session10-k8s-core-objects/Readme.md](session10-k8s-core-objects/Readme.md) |
 | 11 | Kubernetes Networking and Services | [session-11-kubernetes-services/README.md](session-11-kubernetes-services/README.md) |
+| 12 | Kubernetes Ingress, ConfigMaps and Secrets | [session-12-ingress-configmaps-secrets/README.md](session-12-ingress-configmaps-secrets/README.md) |
