@@ -178,11 +178,22 @@ Deployment went from 5 to 2 replicas without any `kubectl` command.
 
 ### Scaling to 3 by Git Push
 
-Second commit pushed; Argo CD picks it up on its next poll the same way.
+Second commit pushed, and Argo CD applied it on a later poll the same way. Its sync history lines
+up with the Git log: every sync is one commit, deployed a few minutes after it was pushed
+(commit times are in IST, sync times in UTC).
 
 ![scale to 3](./Screenshots/img_21.png)
 
 ![argocd after sync](./Screenshots/img_21b.png)
+
+### Clean Up
+
+Deleting the Application did **not** delete the Deployment and Service it created. The
+Application has no `resources-finalizer.argocd.argoproj.io` finalizer, so Argo CD just stops
+managing them. I removed them by deleting the namespace. With the finalizer, deleting the
+Application would also delete everything it deployed.
+
+![cleanup](./Screenshots/img_22.png)
 
 ## 8. Mini Project
 
@@ -194,11 +205,60 @@ https://github.com/RashiMalik02/gitops-demo (folder `08-mini-project/app`, Appli
 Git (desired state) -> Argo CD (reconciler) -> Kubernetes (actual state)
 ```
 
-Steps: apply the Application → Argo CD creates the namespace, Deployment and Service → change
-replicas to 3 in Git and push → Argo CD scales to 3 → manually `kubectl scale` to 1 → self-heal
-puts it back to 3 within seconds, because Git still says 3.
+### Cluster and Argo CD
 
-*(Mini-project screenshots are being added.)*
+I reused the same `session20` kind cluster from section 7, which already had Argo CD installed.
+
+![cluster and argocd](./Screenshots/img_23.png)
+
+### Application Synced
+
+After applying the Application it stayed at `Unknown` and nothing was created.
+
+![application applied](./Screenshots/img_24.png)
+
+**Troubleshooting:** the Application's condition was a `ComparisonError`. The repo-server couldn't
+reach GitHub because the DNS lookup for `github.com` timed out. CoreDNS's logs showed *its*
+upstream (Docker Desktop's DNS at 192.168.65.254) timing out, so the problem was outside the
+cluster, not in Argo CD. A test Pod could resolve `github.com` again a minute later, so it was a
+transient upstream timeout. Instead of waiting for the next poll, I asked Argo CD to retry with
+the `argocd.argoproj.io/refresh=hard` annotation, and it synced straight away.
+
+![dns troubleshooting](./Screenshots/img_24b.png)
+
+![synced resources](./Screenshots/img_24c.png)
+
+![argocd mini app tree](./Screenshots/img_24d.png)
+
+### Git Change: 3 Replicas
+
+Changed `replicas: 2` → `3` in `08-mini-project/app/deployment.yaml`, committed and pushed.
+About 5 minutes later Argo CD synced commit `90450cf` and the Deployment went to 3/3. No `kubectl`
+was involved.
+
+![git change to 3 replicas](./Screenshots/img_25.png)
+
+### Self-Healing
+
+A manual `kubectl scale --replicas=1` was reverted by Argo CD back to 3 within about a second,
+because `selfHeal: true` treats the live cluster differing from Git as drift. The events show the
+scale-down to 1 and the immediate scale-up to 3. The only way to really change the replica count
+is to change Git.
+
+![self healing](./Screenshots/img_26.png)
+
+### Observing the System
+
+Three healthy Pods serving requests (nginx access log), the Application `Synced`/`Healthy`, its
+sync history (one entry per Git commit), and every managed resource marked `Synced`.
+
+![observing](./Screenshots/img_27.png)
+
+![argocd final state](./Screenshots/img_27b.png)
+
+### Clean Up
+
+![cleanup mini project](./Screenshots/img_28.png)
 
 ## Key Learnings
 
